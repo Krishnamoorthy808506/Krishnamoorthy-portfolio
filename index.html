@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Krishna Moorthy R | Portfolio</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#ecfeff',
+              100: '#cffafe',
+              500: '#06b6d4',
+              600: '#0891b2',
+              900: '#164e63',
+            }
+          },
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    /* Smooth Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #020617;
+    }
+    .light ::-webkit-scrollbar-track {
+      background: #f8fafc;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #1e293b;
+      border-radius: 4px;
+    }
+    .light ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #06b6d4;
+    }
+
+    /* Custom Cursor Style (hidden on mobile) */
+    @media (min-width: 1024px) {
+      .custom-cursor-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #06b6d4;
+        position: fixed;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9999;
+        mix-blend-mode: difference;
+        transition: width 0.2s, height 0.2s;
+      }
+      .custom-cursor-outline {
+        width: 32px;
+        height: 32px;
+        border: 2px solid #06b6d4;
+        position: fixed;
+        transform: translate(-50%, -50%);
+        border-radius: 50%;
+        pointer-events: none;
+        z-index: 9998;
+        mix-blend-mode: difference;
+        transition: transform 0.1s ease-out, width 0.2s, height 0.2s;
+      }
+      body:hover .custom-cursor-dot,
+      body:hover .custom-cursor-outline {
+        opacity: 1;
+      }
+      .hover-active .custom-cursor-dot {
+        width: 20px;
+        height: 20px;
+        background-color: #22d3ee;
+      }
+      .hover-active .custom-cursor-outline {
+        width: 48px;
+        height: 48px;
+        border-color: #22d3ee;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 transition-colors duration-300 font-sans selection:bg-brand-500 selection:text-white overflow-x-hidden">
+
+  <!-- Custom Cursor Elements -->
+  <div class="custom-cursor-dot hidden lg:block" id="cursor-dot"></div>
+  <div class="custom-cursor-outline hidden lg:block" id="cursor-outline"></div>
+
+  <!-- NAVIGATION -->
+  <nav class="fixed top-0 w-full z-50 backdrop-blur-md bg-slate-950/80 dark:bg-slate-950/80 border-b border-slate-900 dark:border-slate-900 transition-colors duration-300" id="navbar">
+    <div class="max-w-7xl mx-auto px-6 h-20 flex justify-between items-center">
+      <a href="#home" class="font-display text-xl font-bold tracking-wider hover:text-brand-500 transition-colors cursor-hover">
+        KRISHNA<span class="text-brand-500">.M</span>
+      </a>
+
+      <!-- Desktop Menu -->
+      <div class="hidden md:flex items-center space-x-8 font-medium text-sm">
+        <a href="#about" class="opacity-80 hover:opacity-100 hover:text-brand-500 transition-colors cursor-hover">About</a>
+        <a href="#skills" class="opacity-80 hover:opacity-100 hover:text-brand-500 transition-colors cursor-hover">Skills</a>
+        <a href="#projects" class="opacity-80 hover:opacity-100 hover:text-brand-500 transition-colors cursor-hover">Projects</a>
+        <a href="#certifications" class="opacity-80 hover:opacity-100 hover:text-brand-500 transition-colors cursor-hover">Certifications</a>
+        <a href="#education" class="opacity-80 hover:opacity-100 hover:text-brand-500 transition-colors cursor-hover">Education</a>
+        <a href="#contact" class="opacity-80 hover:opacity-100 hover:text-brand-500 transition-colors cursor-hover">Contact</a>
+        
+        <!-- Dark/Light Mode Button -->
+        <button id="theme-toggle" class="p-2 rounded-full hover:bg-slate-900 transition-colors cursor-hover">
+          <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+          <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+        </button>
+      </div>
+
+      <!-- Mobile Menu Toggle -->
+      <div class="md:hidden flex items-center space-x-4">
+        <button id="mobile-theme-toggle" class="p-2 rounded-full hover:bg-slate-900 transition-colors">
+          <i data-lucide="sun" class="w-5 h-5 hidden dark:block"></i>
+          <i data-lucide="moon" class="w-5 h-5 block dark:hidden"></i>
+        </button>
+        <button id="menu-toggle" class="p-2 rounded-lg hover:bg-slate-950 transition-colors focus:outline-none">
+          <i data-lucide="menu" id="menu-icon-open" class="w-6 h-6"></i>
+          <i data-lucide="x" id="menu-icon-close" class="w-6 h-6 hidden"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div id="mobile-menu" class="hidden md:hidden bg-slate-950 border-b border-slate-900 px-6 py-6 space-y-4">
+      <a href="#about" class="block py-2 font-medium border-b border-slate-900">About</a>
+      <a href="#skills" class="block py-2 font-medium border-b border-slate-900">Skills</a>
+      <a href="#projects" class="block py-2 font-medium border-b border-slate-900">Projects</a>
+      <a href="#certifications" class="block py-2 font-medium border-b border-slate-900">Certifications</a>
+      <a href="#education" class="block py-2 font-medium border-b border-slate-900">Education</a>
+      <a href="#contact" class="block py-2 font-medium">Contact</a>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <section id="home" class="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
+    <!-- Cinematic Gradients -->
+    <div class="absolute inset-0 pointer-events-none overflow-hidden">
+      <div class="absolute top-1/4 left-1/4 w-[45vw] h-[45vw] rounded-full bg-brand-500/10 blur-[130px]"></div>
+      <div class="absolute bottom-1/4 right-1/4 w-[35vw] h-[35vw] rounded-full bg-blue-600/10 blur-[110px]"></div>
+    </div>
+
+    <div class="max-w-5xl mx-auto px-6 text-center z-10 relative">
+      <span class="text-brand-500 font-display font-semibold tracking-widest uppercase text-sm mb-4 inline-block">
+        Computer Science Engineering Student
+      </span>
+      <h1 class="font-display text-5xl md:text-8xl font-black tracking-tight mb-6 leading-none">
+        Krishna Moorthy R
+      </h1>
+      <p class="text-lg md:text-2xl font-light tracking-wide max-w-2xl mx-auto mb-10 opacity-80 leading-relaxed text-slate-300">
+        Passionate about learning new technologies, database integrations, and building modern web solutions.
+      </p>
+
+      <div class="flex flex-wrap justify-center gap-4">
+        <a href="#contact" class="px-8 py-4 bg-brand-500 hover:bg-brand-600 text-slate-950 font-bold rounded-lg shadow-lg hover:shadow-brand-500/20 transition-all transform hover:-translate-y-0.5 cursor-hover">
+          Connect With Me
+        </a>
+        <a href="#projects" class="px-8 py-4 border border-slate-800 hover:border-brand-500 font-semibold rounded-lg transition-all transform hover:-translate-y-0.5 cursor-hover">
+          Explore Projects
+        </a>
+      </div>
+
+      <!-- Quick Social Icons -->
+      <div class="flex justify-center space-x-6 mt-16 text-slate-400">
+        <a href="https://github.com/Krishnamoorthy808506" target="_blank" class="hover:text-brand-500 transition-colors cursor-hover" aria-label="GitHub">
+          <i data-lucide="github" class="w-6 h-6"></i>
+        </a>
+        <a href="https://www.linkedin.com/krishnan19" target="_blank" class="hover:text-brand-500 transition-colors cursor-hover" aria-label="LinkedIn">
+          <i data-lucide="linkedin" class="w-6 h-6"></i>
+        </a>
+        <a href="mailto:krishnamoorthy04102006@gmail.com" class="hover:text-brand-500 transition-colors cursor-hover" aria-label="Email">
+          <i data-lucide="mail" class="w-6 h-6"></i>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT SECTION -->
+  <section id="about" class="py-24 border-t border-slate-900/60 relative">
+    <div class="max-w-6xl mx-auto px-6">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Text Block -->
+        <div class="lg:col-span-7">
+          <span class="text-brand-500 font-display font-bold tracking-widest uppercase text-xs mb-2 block">01 / Profile</span>
+          <h2 class="font-display text-3xl md:text-5xl font-extrabold mb-6">About Me</h2>
+          <p class="text-slate-300 leading-relaxed text-lg mb-6">
+            I am a Computer Science Engineering student with strong technical and analytical skills. I hold a keen passion for backend development, database architecture, and constructing efficient systems. I am constantly upgrading my skills in modern programming paradigms and cloud models.
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-slate-900 pt-6 mt-6">
+            <div>
+              <span class="text-xs text-brand-500 uppercase tracking-wider font-semibold block">University</span>
+              <span class="text-sm text-slate-300 font-medium">V.S.B College of Engineering</span>
+            </div>
+            <div>
+              <span class="text-xs text-brand-500 uppercase tracking-wider font-semibold block">Languages Spoken</span>
+              <span class="text-sm text-slate-300 font-medium">English, Tamil</span>
+            </div>
+          </div>
+        </div>
+        <!-- Profile Photo -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-56 h-72 md:w-60 md:h-80 group mx-auto">
+            <div class="absolute -inset-2 bg-gradient-to-tr from-brand-500 to-blue-600 rounded-3xl blur opacity-25 group-hover:opacity-50 transition-opacity duration-500"></div>
+            <div class="relative w-full h-full rounded-2xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+              <img
+                src="images/profile.jpg"
+                alt="Krishna Moorthy R"
+                class="w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                onerror="this.style.display='none'; this.nextElementSibling.classList.remove('hidden');"
+              >
+              <div class="hidden absolute inset-0 flex flex-col justify-center items-center text-center p-8">
+                <i data-lucide="user" class="w-16 h-16 text-brand-500 mb-4"></i>
+                <h3 class="text-xl font-bold font-display">Krishna Moorthy R</h3>
+                <p class="text-xs text-slate-400 mt-1">B.E. Computer Science Engineering</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS SECTION -->
+  <section id="skills" class="py-24 bg-slate-900/10">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="text-brand-500 font-display font-bold tracking-widest uppercase text-xs mb-2 block">02 / Technical Domain</span>
+      <h2 class="font-display text-3xl md:text-5xl font-extrabold mb-12">Key Skills</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Languages -->
+        <div class="p-8 bg-slate-900/30 border border-slate-900 hover:border-brand-500/20 rounded-2xl transition-colors duration-300">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 bg-brand-500/10 rounded-lg flex items-center justify-center text-brand-500">
+              <i data-lucide="code" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-xl font-bold font-display">Languages</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">Java</span>
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">SQL</span>
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">Python (Basics)</span>
+          </div>
+        </div>
+
+        <!-- Web Development -->
+        <div class="p-8 bg-slate-900/30 border border-slate-900 hover:border-brand-500/20 rounded-2xl transition-colors duration-300">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 bg-brand-500/10 rounded-lg flex items-center justify-center text-brand-500">
+              <i data-lucide="database" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-xl font-bold font-display">Web Technologies</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">HTML</span>
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">CSS</span>
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">JavaScript</span>
+          </div>
+        </div>
+
+        <!-- Soft Skills -->
+        <div class="p-8 bg-slate-900/30 border border-slate-900 hover:border-brand-500/20 rounded-2xl transition-colors duration-300">
+          <div class="flex items-center space-x-3 mb-6">
+            <div class="w-10 h-10 bg-brand-500/10 rounded-lg flex items-center justify-center text-brand-500">
+              <i data-lucide="users" class="w-5 h-5"></i>
+            </div>
+            <h3 class="text-xl font-bold font-display">Interpersonal</h3>
+          </div>
+          <div class="flex flex-wrap gap-2">
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">Problem-Solving</span>
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">Teamwork</span>
+            <span class="px-3 py-1.5 bg-slate-950 border border-slate-850 rounded-lg text-sm font-medium">Communication</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS SECTION -->
+  <section id="projects" class="py-24 border-t border-slate-900/50">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="text-brand-500 font-display font-bold tracking-widest uppercase text-xs mb-2 block">03 / Implementation</span>
+      <h2 class="font-display text-3xl md:text-5xl font-extrabold mb-12">Academic Work</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- LMS -->
+        <div class="group bg-slate-900/40 border border-slate-900 hover:border-brand-500/20 rounded-2xl p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/5">
+          <div>
+            <span class="text-xs font-semibold text-brand-500 uppercase tracking-wider">Database & Backend Integration</span>
+            <h3 class="text-2xl font-bold font-display mt-2 mb-4 group-hover:text-brand-500 transition-colors">Library Management System</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+              Designed and integrated a database solution to automate book issue/return tracking and student record logging. Decreased physical processing and manual record errors.
+            </p>
+          </div>
+          <div>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-850 rounded-md text-slate-300">Java</span>
+              <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-850 rounded-md text-slate-300">SQL</span>
+              <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-850 rounded-md text-slate-300">HTML</span>
+              <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-850 rounded-md text-slate-300">CSS</span>
+            </div>
+            <a href="https://github.com/Krishnamoorthy808506" target="_blank" class="inline-flex items-center text-sm font-semibold text-brand-500 hover:text-brand-600 transition-colors gap-1 cursor-hover">
+              <span>View Repository</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Personal Website -->
+        <div class="group bg-slate-900/40 border border-slate-900 hover:border-brand-500/20 rounded-2xl p-8 flex flex-col justify-between transition-all duration-300 hover:shadow-xl hover:shadow-brand-500/5">
+          <div>
+            <span class="text-xs font-semibold text-brand-500 uppercase tracking-wider">Static Frontend Development</span>
+            <h3 class="text-2xl font-bold font-display mt-2 mb-4 group-hover:text-brand-500 transition-colors">Personal Website</h3>
+            <p class="text-slate-300 text-sm leading-relaxed mb-6">
+              Built a multi-page interactive website showcasing skills, personal highlights, and education using modern responsive web workflows.
+            </p>
+          </div>
+          <div>
+            <div class="flex flex-wrap gap-2 mb-6">
+              <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-850 rounded-md text-slate-300">HTML</span>
+              <span class="text-xs px-2.5 py-1 bg-slate-950 border border-slate-850 rounded-md text-slate-300">CSS</span>
+            </div>
+            <a href="https://github.com/Krishnamoorthy808506" target="_blank" class="inline-flex items-center text-sm font-semibold text-brand-500 hover:text-brand-600 transition-colors gap-1 cursor-hover">
+              <span>View Repository</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS SECTION -->
+  <section id="certifications" class="py-24 bg-slate-900/10">
+    <div class="max-w-6xl mx-auto px-6">
+      <span class="text-brand-500 font-display font-bold tracking-widest uppercase text-xs mb-2 block">04 / Credentials</span>
+      <h2 class="font-display text-3xl md:text-5xl font-extrabold mb-12">Certifications</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Cert 1 -->
+        <div class="p-6 bg-slate-900/40 border border-slate-900 rounded-xl hover:border-brand-500/20 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center mb-4 text-brand-500">
+            <i data-lucide="cloud" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-bold text-lg leading-snug mb-2 font-display">Cloud Computing</h3>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">NPTEL (Elite + Silver)</span>
+        </div>
+        <!-- Cert 2 -->
+        <div class="p-6 bg-slate-900/40 border border-slate-900 rounded-xl hover:border-brand-500/20 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center mb-4 text-brand-500">
+            <i data-lucide="award" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-bold text-lg leading-snug mb-2 font-display">Java Programming & OOP</h3>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Udemy</span>
+        </div>
+        <!-- Cert 3 -->
+        <div class="p-6 bg-slate-900/40 border border-slate-900 rounded-xl hover:border-brand-500/20 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center mb-4 text-brand-500">
+            <i data-lucide="award" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-bold text-lg leading-snug mb-2 font-display">SQL for Data Science</h3>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Coursera</span>
+        </div>
+        <!-- Cert 4 -->
+        <div class="p-6 bg-slate-900/40 border border-slate-900 rounded-xl hover:border-brand-500/20 transition-all duration-300">
+          <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center mb-4 text-brand-500">
+            <i data-lucide="book-open" class="w-5 h-5"></i>
+          </div>
+          <h3 class="font-bold text-lg leading-snug mb-2 font-display">JavaScript Learning</h3>
+          <span class="text-xs font-semibold uppercase tracking-wider text-slate-400">Great Learning</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION / TIMELINE -->
+  <section id="education" class="py-24 border-t border-slate-900/50">
+    <div class="max-w-4xl mx-auto px-6">
+      <span class="text-brand-500 font-display font-bold tracking-widest uppercase text-xs mb-2 block text-center">05 / Chronology</span>
+      <h2 class="font-display text-3xl md:text-5xl font-extrabold mb-16 text-center">Academic History</h2>
+
+      <div class="relative border-l border-slate-800 ml-4 md:ml-32 py-4 space-y-12">
+        <!-- Milstone 1 -->
+        <div class="relative pl-8">
+          <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-brand-500 ring-4 ring-slate-950"></div>
+          <div class="md:absolute md:-left-36 md:top-1 md:w-28 text-sm text-brand-500 font-display font-semibold md:text-right">
+            2023 - 2027
+          </div>
+          <div class="bg-slate-900/30 border border-slate-900 rounded-xl p-6 hover:border-brand-500/10 transition-colors">
+            <span class="block md:hidden text-xs text-brand-500 font-semibold mb-2">2023 - 2027</span>
+            <h3 class="text-xl font-bold font-display">B.E. Computer Science and Engineering</h3>
+            <h4 class="text-md text-slate-300 mt-1">V.S.B College of Engineering Technical Campus</h4>
+            <span class="inline-block px-3 py-1 bg-brand-500/10 border border-brand-500/20 rounded text-brand-500 text-xs font-semibold mt-3">
+              Grade: 7.99 CGPA
+            </span>
+          </div>
+        </div>
+
+        <!-- Milstone 2 -->
+        <div class="relative pl-8">
+          <div class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-brand-500 ring-4 ring-slate-950"></div>
+          <div class="md:absolute md:-left-36 md:top-1 md:w-28 text-sm text-brand-500 font-display font-semibold md:text-right">
+            2021 - 2023
+          </div>
+          <div class="bg-slate-900/30 border border-slate-900 rounded-xl p-6 hover:border-brand-500/10 transition-colors">
+            <span class="block md:hidden text-xs text-brand-500 font-semibold mb-2">2021 - 2023</span>
+            <h3 class="text-xl font-bold font-display">Higher Secondary Certificate (HSC)</h3>
+            <h4 class="text-md text-slate-300 mt-1">Government Higher Secondary School, Kottampatti</h4>
+            <span class="inline-block px-3 py-1 bg-brand-500/10 border border-brand-500/20 rounded text-brand-500 text-xs font-semibold mt-3">
+              Percentage: 78.5%
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT SECTION -->
+  <section id="contact" class="py-24 bg-slate-900/20 border-t border-slate-900/50">
+    <div class="max-w-4xl mx-auto px-6">
+      <div class="text-center mb-16">
+        <span class="text-brand-500 font-display font-bold tracking-widest uppercase text-xs mb-2 block">06 / Connect</span>
+        <h2 class="font-display text-3xl md:text-5xl font-extrabold">Get In Touch</h2>
+        <p class="text-slate-400 mt-3">I'm currently seeking new professional challenges and opportunities.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-12 gap-12">
+        <!-- Contact details -->
+        <div class="md:col-span-5 space-y-6 flex flex-col justify-center">
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-500 shrink-0">
+              <i data-lucide="mail" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Email Address</h4>
+              <p class="text-sm font-medium mt-1">krishnamoorthy04102006@gmail.com</p>
+            </div>
+          </div>
+
+          <div class="flex items-start space-x-4">
+            <div class="w-10 h-10 rounded-lg bg-brand-500/10 flex items-center justify-center text-brand-500 shrink-0">
+              <i data-lucide="phone" class="w-5 h-5"></i>
+            </div>
+            <div>
+              <h4 class="text-xs font-semibold uppercase tracking-wider text-slate-400">Phone Contact</h4>
+              <p class="text-sm font-medium mt-1">+91 90258 08506</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Form -->
+        <form class="md:col-span-7 space-y-4" id="contact-form">
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider mb-2 opacity-70">Full Name</label>
+            <input required type="text" class="w-full px-4 py-3 bg-slate-900 dark:bg-slate-900 border border-slate-800 dark:border-slate-800 focus:border-brand-500 focus:outline-none rounded-lg text-sm text-slate-100" placeholder="John Doe">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider mb-2 opacity-70">Email Address</label>
+            <input required type="email" class="w-full px-4 py-3 bg-slate-900 dark:bg-slate-900 border border-slate-800 dark:border-slate-800 focus:border-brand-500 focus:outline-none rounded-lg text-sm text-slate-100" placeholder="john@example.com">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider mb-2 opacity-70">Message Message</label>
+            <textarea required rows="4" class="w-full px-4 py-3 bg-slate-900 dark:bg-slate-900 border border-slate-800 dark:border-slate-800 focus:border-brand-500 focus:outline-none rounded-lg text-sm text-slate-100 resize-none" placeholder="Details of your inquiry..."></textarea>
+          </div>
+          <button type="submit" class="w-full py-3 bg-brand-500 hover:bg-brand-600 text-slate-950 font-bold rounded-lg text-sm shadow-lg transition-all cursor-hover">
+            Send Message
+          </button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="py-12 border-t border-slate-900/50">
+    <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-6">
+      <div class="text-center sm:text-left">
+        <h3 class="font-bold tracking-wider font-display text-lg">Krishna Moorthy R</h3>
+        <p class="text-xs opacity-60 mt-1">&copy; 2026 All Rights Reserved.</p>
+      </div>
+      <div class="flex space-x-6 text-slate-400">
+        <a href="https://github.com/Krishnamoorthy808506" target="_blank" class="hover:text-brand-500 transition-colors cursor-hover"><i data-lucide="github" class="w-5 h-5"></i></a>
+        <a href="https://www.linkedin.com/krishnan19" target="_blank" class="hover:text-brand-500 transition-colors cursor-hover"><i data-lucide="linkedin" class="w-5 h-5"></i></a>
+        <a href="mailto:krishnamoorthy04102006@gmail.com" class="hover:text-brand-500 transition-colors cursor-hover"><i data-lucide="mail" class="w-5 h-5"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Page Interactivity JavaScript -->
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // 1. Theme Toggle Functionality
+    const toggleButtons = [
+      document.getElementById('theme-toggle'),
+      document.getElementById('mobile-theme-toggle')
+    ].filter(Boolean);
+
+    toggleButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const html = document.documentElement;
+        html.classList.toggle('dark');
+        html.classList.toggle('light');
+
+        const isDark = html.classList.contains('dark');
+
+        document.body.classList.toggle('bg-slate-950', isDark);
+        document.body.classList.toggle('bg-slate-50', !isDark);
+        document.body.classList.toggle('text-slate-100', isDark);
+        document.body.classList.toggle('text-slate-900', !isDark);
+      });
+    });
+
+    // 2. Mobile Nav Toggle
+    const menuToggle = document.getElementById('menu-toggle');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const openIcon = document.getElementById('menu-icon-open');
+    const closeIcon = document.getElementById('menu-icon-close');
+
+    menuToggle.addEventListener('click', () => {
+      mobileMenu.classList.toggle('hidden');
+      openIcon.classList.toggle('hidden');
+      closeIcon.classList.toggle('hidden');
+    });
+
+    // Close Mobile Drawer when a link is clicked
+    mobileMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileMenu.classList.add('hidden');
+        openIcon.classList.remove('hidden');
+        closeIcon.classList.add('hidden');
+      });
+    });
+
+    // 3. Smooth Magnetic-Feel Custom Cursor
+    const cursorDot = document.getElementById('cursor-dot');
+    const cursorOutline = document.getElementById('cursor-outline');
+
+    if (cursorDot && cursorOutline) {
+      window.addEventListener('mousemove', (e) => {
+        const posX = e.clientX;
+        const posY = e.clientY;
+
+        // Animate the main dot positioning
+        cursorDot.style.left = `${posX}px`;
+        cursorDot.style.top = `${posY}px`;
+
+        // Slight lagging effect for the outline circle
+        cursorOutline.animate({
+          left: `${posX}px`,
+          top: `${posY}px`
+        }, { duration: 250, fill: "forwards" });
+      });
+
+      // Cursor hover states logic
+      document.querySelectorAll('.cursor-hover').forEach(element => {
+        element.addEventListener('mouseenter', () => {
+          document.body.classList.add('hover-active');
+        });
+        element.addEventListener('mouseleave', () => {
+          document.body.classList.remove('hover-active');
+        });
+      });
+    }
+
+    // 4. Contact Form Handling
+    const contactForm = document.getElementById('contact-form');
+    if (contactForm) {
+      contactForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('Thank you, Krishna! Your message has been captured successfully.');
+        contactForm.reset();
+      });
+    }
+  </script>
+</body>
+</html>
